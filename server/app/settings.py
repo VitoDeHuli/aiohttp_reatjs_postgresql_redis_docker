@@ -20,7 +20,7 @@ class Settings:
     DB_NAME = Required(str)
     DB_USER = Required(str)
     DB_PASSWORD = Required(str)
-    DB_HOST = 'db'
+    DB_HOST = 'postgres'
     DB_PORT = '5432'
     # you should replace this with another value via the environment variable APP_COOKIE_SECRET
     # which is not saved in code, you could also use Required(str) to force the env variable to be set.
