@@ -1,4 +1,5 @@
 import base64
+import logging
 
 import aiohttp_session
 from aiohttp import web
@@ -38,4 +39,11 @@ def create_app():
     return app
 
 
-web.run_app(create_app(), host='0.0.0.0', port=8000)
+def main():
+    logging.basicConfig(level=logging.DEBUG)
+    app = create_app()
+    web.run_app(app, host=app['settings'].HOST, port=app['settings'].PORT)
+
+
+if __name__ == '__main__':
+    main()

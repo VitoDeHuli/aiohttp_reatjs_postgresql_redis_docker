@@ -3,7 +3,10 @@ version: "3"
 services:
   server:
     build: ./server
+    restart: always
     environment:
+      APP_HOST: ${HOST}
+      APP_PORT: ${PORT}
       AIO_APP_PATH: ${APP_PATH}
       APP_DB_USER: ${POSTGRES_USER}
       APP_DB_PASSWORD: ${POSTGRES_PASSWORD}

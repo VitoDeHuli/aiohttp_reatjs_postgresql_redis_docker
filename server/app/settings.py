@@ -17,6 +17,8 @@ class Settings:
     Or, passing the custom setting as a keyword argument when initialising settings (useful when testing)
     """
     _ENV_PREFIX = 'APP_'
+    HOST = Required(str)
+    PORT = Required(str)
     DB_NAME = Required(str)
     DB_USER = Required(str)
     DB_PASSWORD = Required(str)
