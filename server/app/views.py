@@ -1,7 +1,8 @@
 import logging
 
-from aiohttp.web import View, json_response as response, HTTPNotFound
+from aiohttp.web import View, json_response as response
 
+import status
 from models import tbl_message
 
 log = logging.getLogger(__name__)
@@ -33,6 +34,31 @@ class MessageView(View):
             'title': self.TITLE,
             'object_list': msgs})
 
+    async def post(self):
+        new_message, missing_fields = {}, []
+        fields = ['username', 'message']
+        data = await self.request.post()
+        log.debug(data)
+        for f in fields:
+            new_message[f] = data.get(f)
+            if not new_message[f]:
+                missing_fields.append(f)
+
+        if missing_fields:
+            return response({'text': 'Invalid form submission, missing fields: {}'.format(
+                ', '.join(missing_fields))},
+                status=status.HTTP_400_BAD_REQUEST)
+
+        async with self.request.app['pg_engine'].acquire() as conn:
+            await conn.execute(tbl_message.insert().values(
+                username=new_message['username'],
+                message=new_message['message'],
+            ))
+
+        return response({'text': 'Message is successfully created.',
+                         'redirect_url': str(self.request.app.router['message_list'].url_for())},
+                        status=status.HTTP_201_CREATED)
+
 
 class MessageDetailView(View):
     TITLE = 'Detail message'
@@ -41,17 +67,14 @@ class MessageDetailView(View):
         pk = self.request.match_info.get('pk')
 
         async with self.request.app['pg_engine'].acquire() as conn:
-            result = conn.execute(tbl_message.select().where(tbl_message.c.id == pk))
-            try:
-                row = result.fetchone()
-            except AttributeError:
-                return HTTPNotFound()
-
+            result = await conn.execute(tbl_message.select(tbl_message.c.id == pk))
+            row = await result.fetchone()
             log.debug(row)
-            ts = '{:%Y-%m-%d %H:%M:%S}'.format(row.timestamp)
+            if not row:
+                return response({'text': 'Message not found'}, status=status.HTTP_404_NOT_FOUND)
 
         return response({
             'title': f'{self.TITLE}: {row.id}',
             'object': {'username': row.username,
-                       'timestamp': ts,
+                       'timestamp': '{:%Y-%m-%d %H:%M:%S}'.format(row.timestamp),
                        'message': row.message}})
