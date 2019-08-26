@@ -1,10 +1,39 @@
-from aiohttp import web
+import base64
 
-from routes import setup_routes
+import aiohttp_session
+from aiohttp import web
+from aiohttp_session.cookie_storage import EncryptedCookieStorage
+from aiohttp_utils import routing
+from aiopg.sa import create_engine
+
+from .management import pg_dsn
+from .routes import setup_routes
+from .settings import Settings
+
+
+async def startup(app: web.Application):
+    app['pg_engine'] = await create_engine(pg_dsn(app['settings']))
+
+
+async def cleanup(app: web.Application):
+    app['pg_engine'].close()
+    await app['pg_engine'].wait_closed()
 
 
 def create_app():
-    app = web.Application()
+    app = web.Application(router=routing.ResourceRouter())
+    settings = Settings()
+    app.update(
+        name='server',
+        settings=settings,
+        static='/static/',
+    )
+    app.on_startup.append(startup)
+    app.on_cleanup.append(cleanup)
+
+    secret_key = base64.urlsafe_b64decode(settings.COOKIE_SECRET)
+    aiohttp_session.setup(app, EncryptedCookieStorage(secret_key))
+
     setup_routes(app)
     return app
 
