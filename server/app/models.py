@@ -10,3 +10,6 @@ class Message(Base):
     username = Column(String(40), nullable=False)
     message = Column(Text)
     timestamp = Column(DateTime(), server_default=func.now(), nullable=False)
+
+
+tbl_message = Message.__table__
