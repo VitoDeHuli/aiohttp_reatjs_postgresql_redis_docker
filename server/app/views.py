@@ -78,3 +78,17 @@ class MessageDetailView(View):
             'object': {'username': row.username,
                        'timestamp': '{:%Y-%m-%d %H:%M:%S}'.format(row.timestamp),
                        'message': row.message}})
+
+    async def delete(self):
+        pk = self.request.match_info.get('pk')
+
+        async with self.request.app['pg_engine'].acquire() as conn:
+            result = await conn.execute(tbl_message.select(tbl_message.c.id == pk))
+            row = await result.first()
+            if not row:
+                return response({'text': 'Message not found'}, status=status.HTTP_404_NOT_FOUND)
+
+            await conn.execute(tbl_message.delete(tbl_message.c.id == pk))
+            return response({'text': f'Message with id {pk} was deleted.',
+                             'redirect_url': str(self.request.app.router['message_list'].url_for())},
+                            status=status.HTTP_204_NO_CONTENT)
