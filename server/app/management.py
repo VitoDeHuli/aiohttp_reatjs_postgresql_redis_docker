@@ -3,8 +3,8 @@ import psycopg2
 from sqlalchemy import create_engine
 from sqlalchemy.engine.url import URL
 
-from .models import Base
-from .settings import Settings
+from models import Base
+from settings import Settings
 
 
 def pg_dsn(settings: Settings) -> str:

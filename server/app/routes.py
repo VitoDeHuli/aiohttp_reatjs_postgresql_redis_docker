@@ -2,7 +2,7 @@ from collections import OrderedDict
 
 from aiohttp_utils import negotiation
 
-from . import views
+import views
 
 
 def setup_routes(app):

@@ -7,9 +7,10 @@ from aiohttp_session.cookie_storage import EncryptedCookieStorage
 from aiohttp_utils import routing
 from aiopg.sa import create_engine
 
-from .management import pg_dsn
-from .routes import setup_routes
-from .settings import Settings
+from middleware import setup_middlewares
+from management import pg_dsn
+from routes import setup_routes
+from settings import Settings
 
 
 async def startup(app: web.Application):
@@ -36,6 +37,8 @@ def create_app():
     aiohttp_session.setup(app, EncryptedCookieStorage(secret_key))
 
     setup_routes(app)
+    setup_middlewares(app)
+
     return app
 
 
