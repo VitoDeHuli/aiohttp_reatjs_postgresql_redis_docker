@@ -1,5 +1,10 @@
-from aiohttp import web
+from aiohttp_utils import Response
 
 
-async def index(request):
-    return web.Response(text='Hello, Aiohttp!')
+class IndexView:
+
+    async def get(self, request):
+        name = request.match_info.get('name', 'World')
+        return Response({
+            'message': 'Hello ' + name
+        })
