@@ -4,7 +4,6 @@ import logging
 import aiohttp_session
 from aiohttp import web
 from aiohttp_session.cookie_storage import EncryptedCookieStorage
-from aiohttp_utils import routing
 from aiopg.sa import create_engine
 
 from middleware import setup_middlewares
@@ -23,7 +22,7 @@ async def cleanup(app: web.Application):
 
 
 def create_app():
-    app = web.Application(router=routing.ResourceRouter())
+    app = web.Application()
     settings = Settings()
     app.update(
         name='server',
