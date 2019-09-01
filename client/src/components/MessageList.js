@@ -2,7 +2,7 @@ import React from "react";
 import {Link} from "react-router-dom";
 import {Button, Col, Container, Form, Row} from "react-bootstrap";
 
-import {messagesCreate, messagesGet} from "../common/api";
+import {messagesCreate, messagesDelete, messagesGet} from "../common/api";
 
 
 export default class MessageList extends React.Component {
@@ -18,7 +18,7 @@ export default class MessageList extends React.Component {
     await this.fetchData()
   }
 
-  async fetchData() {
+  fetchData = async () => {
      try {
         const data = await messagesGet();
         this.setState({ data: data.data })
@@ -27,12 +27,17 @@ export default class MessageList extends React.Component {
      }
   };
 
-  handleSubmit = (event) => {
+  handleSubmit = async (event) => {
     event.preventDefault();
     const data = new FormData(event.target);
 
-    messagesCreate(data);
-    this.fetchData();
+    await messagesCreate(data);
+    await this.fetchData();
+  };
+
+  remove = async (pk) => {
+    await messagesDelete(pk);
+    await this.fetchData();
   };
 
  render() {
@@ -48,7 +53,12 @@ export default class MessageList extends React.Component {
           {data.object_list.map((v, i) => {
             return (
               <Col key={i} md={3} className={"message"}>
-                <Link to={`/messages/${v.id}`}>Message {v.id}</Link> <br/>
+                <Link to={`/messages/${v.id}`}>Message {v.id}</Link>
+                <Button variant="danger"
+                        onClick={async () => this.remove(v.id)}
+                        className="btn-remove"
+                >-
+                </Button><br/>
                 <small>{v.timestamp}, {v.username}</small>
               </Col>)})}
         </Row>

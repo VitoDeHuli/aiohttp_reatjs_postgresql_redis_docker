@@ -24,3 +24,8 @@ export function messagesGetOne(pk) {
 export function messagesCreate(data) {
   return axios.post(`${api}messages/`, data,{ headers: jsonHeaders })
 }
+
+
+export function messagesDelete(pk) {
+  return axios.delete(`${api}messages/${pk}/`, { headers: jsonHeaders })
+}
