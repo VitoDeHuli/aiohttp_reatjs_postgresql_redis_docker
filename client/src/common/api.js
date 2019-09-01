@@ -19,3 +19,8 @@ export function messagesGet() {
 export function messagesGetOne(pk) {
   return axios.get(`${api}messages/${pk}/`, { headers: jsonHeaders })
 }
+
+
+export function messagesCreate(data) {
+  return axios.post(`${api}messages/`, data,{ headers: jsonHeaders })
+}

@@ -32,9 +32,8 @@ export default class MessageDetail extends React.Component {
         </Row>
         <Row className={"body"}>
           <Col>
-            <small>{object.timestamp}</small>
-            <p>username: {object.username}</p>
-            <p>message: <br/> {object.message}</p>
+            <small>{object.timestamp}, {object.username}</small>
+            <p>{object.message}</p>
           </Col>
         </Row>
       </Container>

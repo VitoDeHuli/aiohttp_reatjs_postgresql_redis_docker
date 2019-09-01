@@ -21,6 +21,11 @@
   padding-top: 5vh;
 }
 
+.message {
+    margin-bottom: 5vh;
+    text-align: left;
+}
+
 @keyframes App-logo-spin {
   from {
     transform: rotate(0deg);
