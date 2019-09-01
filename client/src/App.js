@@ -1,9 +1,11 @@
-import React from 'react';
-import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
+import React from "react";
+import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 
-import logo from './logo.svg';
-import './App.css';
+import logo from "./logo.svg";
+import "./App.css";
 import Home from "./components/Home";
+import MessageList from "./components/MessageList";
+import MessageDetail from "./components/MessageDetail";
 
 function App() {
   return (
@@ -15,10 +17,14 @@ function App() {
       <div>
         <Router>
           <p>
-            <Link to="/">Home</Link>
+            <Link to={"/"}>Home</Link>&nbsp;|&nbsp;
+            <Link to={"/messages"}>Messages</Link>&nbsp;|&nbsp;
+            <Link to={"/help"}>Help</Link>
           </p>
           <hr />
-          <Route exact path="/" component={Home} />
+          <Route exact path={"/"} component={Home} />
+          <Route exact path={"/messages"} component={MessageList} />
+          <Route exact path={'/messages/:pk'} component={MessageDetail} />
         </Router>
       </div>
     </div>

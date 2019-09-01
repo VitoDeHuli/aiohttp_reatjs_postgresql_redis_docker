@@ -10,7 +10,11 @@ from models import tbl_message
 log = logging.getLogger(__name__)
 
 
-class IndexView(View, CorsViewMixin):
+class BaseView(View, CorsViewMixin):
+    pass
+
+
+class IndexView(BaseView):
     TITLE = 'Index page'
 
     async def get(self):
@@ -19,7 +23,7 @@ class IndexView(View, CorsViewMixin):
             'text': 'Hello World'})
 
 
-class MessageView(View, CorsViewMixin):
+class MessageView(BaseView):
     TITLE = 'Messages'
 
     async def get(self):
@@ -29,7 +33,8 @@ class MessageView(View, CorsViewMixin):
             async for row in conn.execute(tbl_message.select().order_by(
                     tbl_message.c.timestamp.desc())):
                 ts = '{:%Y-%m-%d %H:%M:%S}'.format(row.timestamp)
-                msgs.append({'username': row.username,
+                msgs.append({'id': row.id,
+                             'username': row.username,
                              'timestamp': ts})
 
         return response({
@@ -62,7 +67,7 @@ class MessageView(View, CorsViewMixin):
                         status=status.HTTP_201_CREATED)
 
 
-class MessageDetailView(View, CorsViewMixin):
+class MessageDetailView(BaseView):
     TITLE = 'Detail message'
 
     async def get(self):
