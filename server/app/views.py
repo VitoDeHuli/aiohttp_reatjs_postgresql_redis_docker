@@ -1,6 +1,8 @@
 import logging
 
+from aiohttp_cors import CorsViewMixin
 from aiohttp.web import View, json_response as response
+
 
 import status
 from models import tbl_message
@@ -8,7 +10,7 @@ from models import tbl_message
 log = logging.getLogger(__name__)
 
 
-class IndexView(View):
+class IndexView(View, CorsViewMixin):
     TITLE = 'Index page'
 
     async def get(self):
@@ -17,7 +19,7 @@ class IndexView(View):
             'text': 'Hello World'})
 
 
-class MessageView(View):
+class MessageView(View, CorsViewMixin):
     TITLE = 'Messages'
 
     async def get(self):
@@ -60,7 +62,7 @@ class MessageView(View):
                         status=status.HTTP_201_CREATED)
 
 
-class MessageDetailView(View):
+class MessageDetailView(View, CorsViewMixin):
     TITLE = 'Detail message'
 
     async def get(self):

@@ -1,6 +1,7 @@
 import base64
 import logging
 
+import aiohttp_cors
 import aiohttp_session
 from aiohttp import web
 from aiohttp_session.cookie_storage import EncryptedCookieStorage
@@ -37,7 +38,17 @@ def create_app():
 
     setup_routes(app)
     setup_middlewares(app)
-
+    cors = aiohttp_cors.setup(app, defaults={
+        "*": aiohttp_cors.ResourceOptions(
+            allow_credentials=True,
+            expose_headers="*",
+            allow_methods="*",
+            allow_headers="*",
+            max_age=3600
+        )
+    })
+    for route in app.router.routes():
+        cors.add(route)
     return app
 
 
