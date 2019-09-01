@@ -7,6 +7,7 @@ import "./App.css";
 import Home from "./components/Home";
 import MessageList from "./components/MessageList";
 import MessageDetail from "./components/MessageDetail";
+import Help from "./components/Help";
 
 
 function App() {
@@ -36,6 +37,7 @@ function App() {
           <Route exact path={"/"} component={Home} />
           <Route exact path={"/messages"} component={MessageList} />
           <Route exact path={'/messages/:pk'} component={MessageDetail} />
+          <Route exact path={'/help'} component={Help} />
         </Router>
       </div>
     </div>
