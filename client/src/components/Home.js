@@ -1,5 +1,6 @@
 import React from 'react';
 import {index} from "../common/api";
+import {Col, Row} from "react-bootstrap";
 
 
 export default class Home extends React.Component {
@@ -23,8 +24,16 @@ export default class Home extends React.Component {
     const { data } = this.state;
     return (
       <React.Fragment>
-        <h1>{data.title}</h1>
-        <p>{data.text}</p>
+        <Row className={"title"}>
+          <Col>
+            <h1>{data.title}</h1>
+          </Col>
+        </Row>
+        <Row className={"body"}>
+          <Col>
+            {data.text}
+          </Col>
+        </Row>
       </React.Fragment>
     )
   }

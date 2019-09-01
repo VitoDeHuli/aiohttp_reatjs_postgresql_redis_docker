@@ -1,6 +1,7 @@
 import React from "react";
 
 import {messagesGetOne} from "../common/api";
+import {Col, Container, Row} from "react-bootstrap";
 
 
 export default class MessageDetail extends React.Component {
@@ -23,12 +24,20 @@ export default class MessageDetail extends React.Component {
  render() {
     const { title, object } = this.state.data;
     return (
-      <React.Fragment>
-        <h1>{title}</h1>
-        <p>{object.timestamp}</p>
-        <p>username: {object.username}</p>
-        <p>message: <br/> {object.message}</p>
-      </React.Fragment>
+      <Container>
+        <Row className={"title"}>
+          <Col>
+            <h1>{title}</h1>
+          </Col>
+        </Row>
+        <Row className={"body"}>
+          <Col>
+            <small>{object.timestamp}</small>
+            <p>username: {object.username}</p>
+            <p>message: <br/> {object.message}</p>
+          </Col>
+        </Row>
+      </Container>
     )
   }
 }

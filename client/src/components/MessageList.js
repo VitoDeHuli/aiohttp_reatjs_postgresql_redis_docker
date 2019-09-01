@@ -1,5 +1,6 @@
 import React from "react";
 import {Link} from "react-router-dom";
+import {Col, Container, Row} from "react-bootstrap";
 
 import {messagesGet} from "../common/api";
 
@@ -24,20 +25,22 @@ export default class MessageList extends React.Component {
  render() {
     const { data } = this.state;
     return (
-      <React.Fragment>
-        <h1>{data.title}</h1>
-        <p>
-          <ul>
-            {data.object_list.map((v, i) => {
-              return (
-                <li key={i}>
-                  <Link to={`/messages/${v.id}`}>Message {v.id}</Link> <br/>
-                  {v.timestamp} <br/>
-                  username: {v.username} <br/>
-                </li>)})}
-          </ul>
-        </p>
-      </React.Fragment>
+      <Container>
+        <Row className={"title"}>
+          <Col>
+            <h1>{data.title}</h1>
+          </Col>
+        </Row>
+        <Row className={"body"}>
+          {data.object_list.map((v, i) => {
+            return (
+              <Col key={i}>
+                <Link to={`/messages/${v.id}`}>Message {v.id}</Link> <br/>
+                {v.timestamp} <br/>
+                username: {v.username} <br/>
+              </Col>)})}
+        </Row>
+      </Container>
     )
   }
 }
