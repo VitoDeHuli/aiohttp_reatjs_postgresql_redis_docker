@@ -4,8 +4,8 @@
 
 .App-logo {
   animation: App-logo-spin infinite 2s linear;
-  height: 10vh;
-  padding-top: 3vh;
+  height: 5vh;
+  padding-top: 1vh;
 }
 
 .App-link {
@@ -13,12 +13,12 @@
 }
 
 .title {
-  padding-top: 5vh;
+  padding-top: 3vh;
   border-bottom: 1px solid gray;
 }
 
 .body {
-  padding-top: 5vh;
+  padding-top: 3vh;
 }
 
 .message {
@@ -31,6 +31,19 @@
     height: 20px;
     width: 20px;
     margin-left: 5px;
+}
+
+.navigation a {
+    display: block;
+    padding: .5rem 1rem;
+    color: hsla(0,0%,100%,.5);
+    text-decoration: none;
+    background-color: transparent;
+}
+
+.navigation a:hover {
+    color: hsla(0,0%,100%,.75);
+    text-decoration: none;
 }
 
 @keyframes App-logo-spin {

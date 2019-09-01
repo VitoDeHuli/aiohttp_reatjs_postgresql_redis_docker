@@ -1,5 +1,5 @@
 import React from "react";
-import { BrowserRouter as Router, Route} from "react-router-dom";
+import {BrowserRouter as Router, Link, Route} from "react-router-dom";
 import {Container, Nav, Navbar} from "react-bootstrap";
 
 import logo from "./logo.svg";
@@ -22,13 +22,14 @@ function App() {
         <Router>
           <Navbar bg={"dark"} expand={"lg"} variant={"dark"}>
             <Container>
-              <Navbar.Brand href="/">
+              <Navbar.Brand>
                 <img src={logo} className="App-logo" alt="logo" />
                 raiohttp_reatjs_postgresql_redis_docker
               </Navbar.Brand>
-              <Nav className="mr-auto">
-                <Nav.Link href={"/messages"}>Messages</Nav.Link>
-                <Nav.Link href={"/help"}>Help</Nav.Link>
+              <Nav className="navigation mr-auto">
+                <Link to={"/"}>Home</Link>
+                <Link to={"/messages"}>Messages</Link>
+                <Link to={"/help"}>Help</Link>
               </Nav>
             </Container>
           </Navbar>
